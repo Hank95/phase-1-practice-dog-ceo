@@ -10,7 +10,11 @@ function init() {
 
   fetch(breedUrl)
     .then((response) => response.json())
-    .then((json) => renderBreeds(Object.keys(json.message)));
+    .then((json) => {
+      console.log(Object.keys(json.message).filter((dog) => dog[0] === "c"));
+      renderBreeds(Object.keys(json.message));
+      filterBreeds(Object.keys(json.message));
+    });
 }
 
 // document.querySelectorAll("li").forEach((item) => {
@@ -24,6 +28,16 @@ const renderPhotos = function (photos) {
     const photo = new Image();
     photo.src = image;
     dogContainer.appendChild(photo);
+  });
+};
+
+const filterBreeds = function (breeds) {
+  const dropDown = document.querySelector("#breed-dropdown");
+  dropDown.addEventListener("change", (e) => {
+    console.log(e.target.value);
+    const filterDog = breeds.filter((dog) => dog[0] === e.target.value);
+    console.log(filterDog);
+    renderBreeds(filterDog);
   });
 };
 
